@@ -10,10 +10,18 @@ $(document).ready(function() {
 //***BUSINESS LOGIC***
 
 
-var ticketPrice = 12;
+var ticketPrice;
+
+function TicketPrice(age, time, isNew, ticketPrice) {
+  this.age = age;
+  this.time = time;
+  this.isNew = isNew;
+  this.ticketPrice = 12;
+}
+
 
 //MOVIE CONSTRUCTOR
-var movie = function(name, rating, times, isNew) {
+function movie(name, rating, times, isNew) {
   this.name = name;
   this.rating = rating;
   this.times = times;
@@ -25,7 +33,53 @@ var theRoom = new movie("The Room", "PG-13", ["11:30", "12:30", "1:00", "2:30", 
 var It = new movie("It", "R", ["11:00", "12:45", "1:00", "2:30", "4:45", "6:00", "8:00"], true);
 var age;
 
-//BALTO LIST OF SHOWINGS
+
+TicketPrice.prototype.matinee = function(times) {
+  for (var i = 0; i < times.length; i+= 1) {
+
+    if (times[i].charAt(0) <= 3) {
+      ticketPrice = ticketPrice -2;
+      return ticketPrice;
+    }
+    else if (times[i].charAt(0) > 3) {
+      return ticketPrice;
+    }
+  };
+};
+
+//AGE FUNCTION
+TicketPrice.prototype.age= function () {
+
+  var age = parseInt($("input#ageInput").val());
+  if(age >= 65){
+    ticketPrice =  ticketPrice -2;
+    return ticketPrice;
+  }
+  else if (age < 13) {
+    alert("You're too young boy! Go watch Balto.")
+    return ticketPrice;
+  }
+  else {
+    return ticketPrice;
+  }
+};
+
+TicketPrice.prototype.isNew = function () {
+  if (TicketPrice.movie.isNew === true) {
+    ticketPrice = ticketPrice - 2;
+    return ticketPrice;
+  }
+  else {
+    return ticketPrice;
+  }
+};
+
+});
+
+
+// BALTO LIST OF SHOWINGS
+
+
   $(".baltoShowings").append("<li id='baltoOption1'> <a href='#baltoOption1'>" + Balto.times[0] + "</a> </li>");
   $(".baltoShowings").append("<li id='baltoOption2'> <a href='#baltoOption2'>" + Balto.times[1] + "</a> </li>");
   $(".baltoShowings").append("<li id='baltoOption3'> <a href='#baltoOption3'>" + Balto.times[2] + "</a> </li>");
@@ -131,43 +185,3 @@ var age;
   });
 
 //END OF CLICK FUNCTIONS
-
-
-});
-
-
-
-
-  // var matinee = function(times) {
-  //   for (var i = 0; i < times.length; i+= 1) {
-  //
-  //   if (times[i].charAt(0) <= 3) {
-  //     matineeTicketPrice = -2;
-  //     return matineeTicketPrice;
-  //   }
-  //   else if (times[i].charAt(0) > 3) {
-  //     matineeTicketPrice = 0;
-  //     return matineeTicketPrice;
-  //   }
-  //  };
-  // };
-
-
-
-
-  //  AGE FUNCTION
-  //   age = parseInt($("input#ageInput").val());
-  //   if(age >= 65){
-  //     seniorTicketPrice = -2;
-  //     return seniorTicketPrice;
-  //   }
-  //   else if (age < 13) {
-  //     alert("You're too young boy! Go watch Balto.")
-  //     seniorTicketPrice = 0;
-  //     return seniorTicketPrice;
-  //   }
-  //   else {
-  //     seniorTicketPrice = 0;
-  //     return seniorTicketPrice;
-  //   }
-  // });
